@@ -1,127 +1,132 @@
-# ✈️ Explorify AI — A Multi-Agent Travel Planner with LangGraph
+# ✈️ Explorify AI — Multi-Agent AI Travel Planner & Marketplace
 
-An open-source AI travel planner that turns a natural-language trip request into a practical travel plan with flight suggestions, hotel ideas, and a day-by-day itinerary. The project uses a multi-agent workflow built with LangGraph, LangChain, and FastAPI.
+> **Unified Multi-Modal Travel Platform for India**: Powered by a high-performance **Rust AWS Lambda Multi-Agent Engine**, **Next.js 14 Marketplace**, and **IRCTC Indian Railways Integration**.
 
-## Why this project?
+---
 
-Planning a trip usually means jumping between multiple websites, tools, and spreadsheets. This project brings that flow into one experience by combining:
+## 🌟 Overview
 
-- a flight-search agent,
-- a hotel-research agent,
-- an itinerary-planning agent, and
-- a final response agent,
+**Explorify AI** is an end-to-end multi-agent travel planning and marketplace platform. It converts natural language trip preferences (source, destination, travel dates, passenger counts, budget, and special interests) into personalized, real-time travel itineraries featuring live flight options, handpicked stay accommodations, and detailed day-by-day routes across India.
 
-all coordinated through a LangGraph workflow.
+### Core Highlights
+- 🎨 **Navy Charcoal Identity (`#1a213a`)**: Production-ready UI with glassmorphism, micro-animations, and modern typography.
+- 🤖 **Rust Multi-Agent Lambda Engine**: Built with Rust & Gemini API for fast, streaming response generation.
+- 🚆 **IRCTC & Multi-Modal Travel Integration**: Combines Vande Bharat / Rajdhani Express trains, flight choices, and hotel bookings in a single platform.
+- ⚡ **Fail-Safe Dynamic Trip Generator**: Guarantees zero-downtime trip generation with client-side fallback fallback logic.
+- 💳 **Razorpay & AWS DynamoDB**: Integrated payments, bookings database, and user authentication via NextAuth.
 
-## Features
+---
 
-- ✈️ Flight research using AviationStack
-- 🏨 Hotel suggestions using Tavily search
-- 🧠 Multi-agent orchestration with LangGraph
-- 📝 Structured travel itinerary generation
-- 🌐 FastAPI backend with a simple web interface
-- 💾 Conversation state persistence using PostgreSQL
-- ⚡ LLM-powered responses with Groq
+## 🏗️ Architecture & Ecosystem
 
-## Tech Stack
-
-- Python 3.10+
-- FastAPI
-- Jinja2 + HTML/CSS/JavaScript frontend
-- LangGraph
-- LangChain
-- Groq LLMs
-- PostgreSQL
-- Tavily API
-- AviationStack API
-
-## Project Structure
+The repository is organized into sub-modules:
 
 ```text
-.
-├── app.py                # FastAPI app entry point
-├── backend.py            # LangGraph travel workflow
-├── requirements.txt      # Python dependencies
-├── static/               # Static frontend assets
-├── templates/            # HTML templates
-└── tools/                # Flight and web search integrations
+Explorify-AI--Multi-Agent-Travel-Planner-with-LangGraph/
+├── Explorify-Marketplace-Website/   # Next.js 14 App Router Marketplace & Planner
+├── Explorify-Travel-Planner/        # Rust AWS Lambda Multi-Agent Backend Engine
+└── Explorify-Frontend/              # Standalone React + Vite Frontend Client
 ```
 
-## Prerequisites
+### 1. `Explorify-Marketplace-Website` (Next.js 14)
+- **Framework**: Next.js 14, React 18, TailwindCSS, TypeScript.
+- **Styling**: `#1a213a` Navy Charcoal palette, Framer Motion animations, Lucide icons, Sonner toasts.
+- **APIs**:
+  - `/api/travel-planner/ask`: Real-time HTTP streaming bridge to AWS Lambda engine.
+  - `/api/places/autocomplete`: Google Places API integration for location search.
 
-Before running the project locally, make sure you have:
+### 2. `Explorify-Travel-Planner` (Rust AWS Lambda Backend)
+- **Language & Runtime**: Rust (2024 edition), `tokio`, `lambda_runtime`.
+- **LLM Engine**: `gemini-client-api` (Google Gemini 2.0 model).
+- **Tools**:
+  - `flight_search`: Real-time flight search & deep booking link constructor.
+  - `trains_search`: IRCTC train route search with seat availability (`1A`, `2A`, `3A`, `CC`, `SL`).
+  - `get_hotel_details`: Hotel research & booking link provider.
+  - `get_about_place`: Google Maps places & image URL lookup.
 
-- Python 3.10 or newer installed
-- PostgreSQL running and accessible
-- API keys for:
-  - Groq
-  - Tavily
-  - AviationStack
+---
 
-## Environment Variables
+## 🚀 Quick Start & Local Setup
 
-Create a .env file in the project root with the following variables:
+### Prerequisites
+- **Node.js**: `v18.x` or higher
+- **Rust**: `1.75+` (for Lambda backend development)
+- **Environment Variables**: Setup `.env.local` inside `Explorify-Marketplace-Website/`.
+
+### 1. Running the Marketplace Website (Next.js)
+
+```bash
+cd Explorify-Marketplace-Website
+npm install
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### 2. Running the Standalone Frontend (Vite)
+
+```bash
+cd Explorify-Frontend
+npm install
+npm run dev
+```
+Open [http://localhost:3001](http://localhost:3001) in your browser.
+
+---
+
+## 🔑 Environment Configuration
+
+Create a `.env.local` file inside `Explorify-Marketplace-Website/.env.local`:
 
 ```env
-DATABASE_URL=postgresql://user:password@localhost:5432/travel_db
-GROQ_API_KEY=your_groq_api_key
-AVIATIONSTACK_API_KEY=your_aviationstack_api_key
-TAVILY_API_KEY=your_tavily_api_key
-DEFAULT_ORIGIN_IATA=DAC
+# NextAuth Configuration
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your_nextauth_secret
+
+# AWS DynamoDB & S3
+AWS_ACCESS_KEY_ID=your_aws_access_key
+AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+AWS_REGION=ap-south-1
+
+# Razorpay Keys
+RAZORPAY_KEY_ID=rzp_test_...
+RAZORPAY_KEY_SECRET=your_razorpay_secret
+
+# Production Keys for Rust Lambda & Maps
+API_SECRET=your_api_secret
+GOOGLE_MAPS_API_KEY=your_google_maps_api_key
+GEMINI_API_KEY=your_gemini_api_key
 ```
 
-## Installation
+---
 
-```bash
-python -m venv .venv
-source .venv/bin/activate   # On Windows: .venv\Scripts\activate
-pip install -r requirements.txt
+## 🛠️ Multi-Agent Workflow
+
+```
+[User Trip Form Input] 
+       │
+       ▼
+[Next.js API Gateway (/api/travel-planner/ask)]
+       │
+       ▼
+[Rust AWS Lambda Multi-Agent Engine]
+       ├──► Flight Agent (Searches Direct & Connecting Flights)
+       ├──► Train Agent (IRCTC Route & Seat Class Finder)
+       ├──► Hotel Agent (Handpicked Stays & Vouchers)
+       └──► Itinerary Agent (Day-by-Day Activity Generator)
+       │
+       ▼
+[Real-Time JSON Stream to Next.js Frontend]
+       │
+       ▼
+[Stunning UI Cards: Flights, Stays & Daily Route]
 ```
 
-## Running the App
+---
 
-Start the FastAPI server:
+## 📄 License
 
-```bash
-python app.py
-```
+Distributed under the **MIT License**. See `LICENSE` for more information.
 
-Then open your browser at:
+---
 
-```text
-http://127.0.0.1:8000/
-```
-
-## API Endpoints
-
-- GET /health - Health check
-- POST /api/travel - Submit a travel request
-
-Example request:
-
-```bash
-curl -X POST http://127.0.0.1:8000/api/travel \
-  -H "Content-Type: application/json" \
-  -d '{"message":"Plan a 3-day trip to Tokyo with a budget of $1200"}'
-```
-
-## How the Workflow Works
-
-1. The user submits a travel request.
-2. The flight agent gathers flight-related information.
-3. The hotel agent searches for accommodation suggestions.
-4. The itinerary agent creates a practical travel plan.
-5. The final agent formats the result into a polished response.
-
-## Contributing
-
-Contributions are welcome. If you want to improve the app, add new travel features, or fix issues:
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Open a pull request
-
-## Acknowledgments
-
-This project is built with the help of modern LLM tooling and travel APIs, and it is intended as a practical example of combining LangGraph agents with real-world applications.
+<p center>Crafted for Explorify Trips Pvt. Ltd.</p>
