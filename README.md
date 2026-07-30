@@ -1,23 +1,22 @@
-# ✈️ Explorify AI — Multi-Agent AI Travel Planner & Marketplace
+# Explorify AI — Multi-Agent AI Travel Planner & Marketplace
 
 > **Unified Multi-Modal Travel Platform for India**: Powered by a high-performance **Rust AWS Lambda Multi-Agent Engine**, **Next.js 14 Marketplace**, and **IRCTC Indian Railways Integration**.
 
 ---
 
-## 🌟 Overview
+## Overview
 
 **Explorify AI** is an end-to-end multi-agent travel planning and marketplace platform. It converts natural language trip preferences (source, destination, travel dates, passenger counts, budget, and special interests) into personalized, real-time travel itineraries featuring live flight options, handpicked stay accommodations, and detailed day-by-day routes across India.
 
 ### Core Highlights
-- 🎨 **Navy Charcoal Identity (`#1a213a`)**: Production-ready UI with glassmorphism, micro-animations, and modern typography.
-- 🤖 **Rust Multi-Agent Lambda Engine**: Built with Rust & Gemini API for fast, streaming response generation.
-- 🚆 **IRCTC & Multi-Modal Travel Integration**: Combines Vande Bharat / Rajdhani Express trains, flight choices, and hotel bookings in a single platform.
-- ⚡ **Fail-Safe Dynamic Trip Generator**: Guarantees zero-downtime trip generation with client-side fallback fallback logic.
-- 💳 **Razorpay & AWS DynamoDB**: Integrated payments, bookings database, and user authentication via NextAuth.
+- **Rust Multi-Agent Lambda Engine**: Built with Rust & Gemini API for fast, streaming response generation.
+- **IRCTC & Multi-Modal Travel Integration**: Combines Vande Bharat / Rajdhani Express trains, flight choices, and hotel bookings in a single platform.
+- **Fail-Safe Dynamic Trip Generator**: Guarantees zero-downtime trip generation with client-side fallback fallback logic.
+- **Razorpay & AWS DynamoDB**: Integrated payments, bookings database, and user authentication via NextAuth.
 
 ---
 
-## 🏗️ Architecture & Ecosystem
+## Architecture & Ecosystem
 
 The repository is organized into sub-modules:
 
@@ -46,7 +45,7 @@ Explorify-AI--Multi-Agent-Travel-Planner-with-LangGraph/
 
 ---
 
-## 🚀 Quick Start & Local Setup
+## Quick Start & Local Setup
 
 ### Prerequisites
 - **Node.js**: `v18.x` or higher
@@ -73,7 +72,7 @@ Open [http://localhost:3001](http://localhost:3001) in your browser.
 
 ---
 
-## 🔑 Environment Configuration
+## Environment Configuration
 
 Create a `.env.local` file inside `Explorify-Marketplace-Website/.env.local`:
 
@@ -99,7 +98,7 @@ GEMINI_API_KEY=your_gemini_api_key
 
 ---
 
-## 🛠️ Multi-Agent Workflow
+## Multi-Agent Workflow
 
 ```
 [User Trip Form Input] 
@@ -123,7 +122,7 @@ GEMINI_API_KEY=your_gemini_api_key
 
 ---
 
-## 📄 License
+## License
 
 Distributed under the **MIT License**. See `LICENSE` for more information.
 
