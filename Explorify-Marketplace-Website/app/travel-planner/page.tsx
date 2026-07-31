@@ -308,7 +308,18 @@ function TravelPlannerContent() {
     setPlanData(null);
     setStatusText("Connecting to Explorify Multi-Agent Engine...");
 
-    const promptText = `Plan a trip from ${params.from} to ${params.to}. Dates: ${params.start || 'Flexible'} to ${params.end || 'Flexible'}. Travellers: ${params.adultsCount} Adults, ${params.kidsCount || '0'} Children. Budget: INR ${params.budget}. Special Preferences & Notes: ${params.preferences || 'Standard luxury pace'}.`;
+    const promptText = `Plan a trip from ${params.from} to ${params.to}.
+Departure Location: ${params.from}
+Destination: ${params.to}
+Travel Dates: ${params.start || '2026-08-10'} to ${params.end || '2026-08-16'}
+Travellers: ${params.adultsCount} Adults, ${params.kidsCount || '0'} Children
+Total Budget (INR): ₹${params.budget}
+Preferences: ${params.preferences || 'Standard leisure trip with top sights'}
+
+Please generate a realistic, tailored travel plan for ${params.to} originating from ${params.from} including:
+1. Direct or connecting flights matching ${params.from} to ${params.to}
+2. Handpicked hotels in ${params.to} within the budget of ₹${params.budget}
+3. Day-by-day itinerary with real tourist spots in ${params.to}`;
 
     try {
       const response = await fetch("/api/travel-planner/ask", {
