@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { SlidersHorizontal, Star } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { Reveal, SectionHeading } from "@/components/motion";
 import { TripCard, TripCardSkeleton } from "@/components/trip-card";
 import { Button } from "@/components/ui/button";
@@ -29,7 +29,7 @@ const types: TripType[] = [
   "Hill Station",
 ];
 
-export default function BrowseTrips() {
+function BrowseTripsContent() {
   const searchParams = useSearchParams();
   const qParam = searchParams.get("q") || "";
   const regionParam = searchParams.get("region") || "";
@@ -271,5 +271,13 @@ export default function BrowseTrips() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function BrowseTrips() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gradient-sky p-10 text-center">Loading trips...</div>}>
+      <BrowseTripsContent />
+    </Suspense>
   );
 }

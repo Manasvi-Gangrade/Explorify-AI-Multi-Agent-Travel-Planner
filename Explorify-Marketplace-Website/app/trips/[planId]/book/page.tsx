@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -27,7 +27,7 @@ interface DepartureWithAvailability extends DynamoDBDeparture {
   priceOverride?: number;
 }
 
-export default function BookingPage({ params }: BookingPageProps) {
+function BookingPageContent({ params }: BookingPageProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const departureId = searchParams.get("departureId");
@@ -604,5 +604,13 @@ export default function BookingPage({ params }: BookingPageProps) {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function BookingPage(props: BookingPageProps) {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>}>
+      <BookingPageContent {...props} />
+    </Suspense>
   );
 }

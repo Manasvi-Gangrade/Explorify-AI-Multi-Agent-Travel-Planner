@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { Check, Lock, ShieldCheck } from "lucide-react";
-import { useState, useMemo, useEffect } from "react";
+import { Suspense, useState, useMemo, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { formatINR, getTrip, mapPlanToTrip, type Trip } from "@/lib/site-data";
@@ -25,7 +25,7 @@ interface Departure {
   availableSeats: number;
 }
 
-export default function CheckoutPage() {
+function CheckoutPageContent() {
   const params = useParams();
   const tripId = params.tripId as string;
   const searchParams = useSearchParams();
@@ -545,5 +545,13 @@ export default function CheckoutPage() {
         onSuccess={handleRazorpaySuccess}
       />
     </div>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={<div className="mx-auto max-w-3xl px-4 py-24 text-center">Loading checkout...</div>}>
+      <CheckoutPageContent />
+    </Suspense>
   );
 }
