@@ -38,6 +38,7 @@ export default function RootLayout({
       </head>
       <body
         className="antialiased flex flex-col min-h-screen pb-16 lg:pb-0"
+        suppressHydrationWarning
       >
         <ThemeProvider
           attribute="class"
