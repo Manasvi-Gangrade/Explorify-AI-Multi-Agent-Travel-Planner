@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { DM_Sans, Fraunces } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/common/theme-provider";
@@ -15,8 +15,6 @@ const fraunces = Fraunces({
   variable: "--font-fraunces",
   subsets: ["latin"],
 });
-
-import type { Metadata, Viewport } from "next";
 
 export const viewport: Viewport = {
   width: "device-width",
