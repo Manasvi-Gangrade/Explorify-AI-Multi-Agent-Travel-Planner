@@ -1,6 +1,4 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": "nextjs",
-  "buildCommand": "cd Explorify-Marketplace-Website && npm install && npm run build",
-  "outputDirectory": "Explorify-Marketplace-Website/.next"
+  "framework": "nextjs"
 }
