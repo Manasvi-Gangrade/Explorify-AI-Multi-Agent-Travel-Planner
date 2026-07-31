@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useParams, useRouter } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { ArrowLeft, Clock, Calendar, User, Share2, Sparkles, MapPin, Bookmark } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { blogPosts, getTrip, trips } from "@/lib/site-data";

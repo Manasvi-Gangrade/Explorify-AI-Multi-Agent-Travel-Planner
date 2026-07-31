@@ -153,6 +153,7 @@ export interface DynamoDBBooking {
   platformFee: number;
   totalAmount: number;
   createdAt: string;
+  updatedAt?: string;
 
   // Razorpay payment fields
   razorpayOrderId?: string;

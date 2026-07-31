@@ -30,13 +30,18 @@ export async function POST(request: NextRequest) {
     const customerEmail = session?.user?.email || body.customerEmail || "explorer@explorify.ai";
     const customerName = session?.user?.name || body.customerName || "Explorer Passenger";
 
+    const totalAmt = body.totalAmount || 24999;
+    const platformFee = Math.round(totalAmt * 0.15);
+
     const newBooking: DynamoDBBooking = {
       bookingId,
       userId,
       planId: body.planId || body.tripId || "p1",
       departureId: body.departureId || "dep_1",
       numPeople: body.numPeople || body.travellers || 1,
-      totalAmount: body.totalAmount || 24999,
+      totalAmount: totalAmt,
+      tripCost: totalAmt - platformFee,
+      platformFee,
       paymentStatus: body.paymentStatus || "completed",
       bookingStatus: "confirmed",
       tripDate: body.tripDate || body.date || new Date().toISOString().split("T")[0],
@@ -44,6 +49,8 @@ export async function POST(request: NextRequest) {
       razorpayPaymentId: body.razorpayPaymentId || `pay_${Math.random().toString(36).substring(2, 10)}`,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      refundStatus: "none",
+      vendorPayoutStatus: "pending",
     };
 
     // Save to database

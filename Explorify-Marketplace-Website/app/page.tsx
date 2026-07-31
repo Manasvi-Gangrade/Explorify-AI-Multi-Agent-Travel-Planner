@@ -162,6 +162,8 @@ function TrustStrip() {
   );
 }
 
+
+
 function VideoShowcase() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(true);
