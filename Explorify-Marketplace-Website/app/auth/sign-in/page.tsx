@@ -141,45 +141,44 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-50 via-blue-50 to-purple-50 dark:from-slate-950 dark:via-blue-950 dark:to-purple-950 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-[#f4f8fb] via-sky-50/60 to-slate-100 dark:from-slate-950 dark:via-[#0e273c] dark:to-slate-900 relative overflow-hidden">
       {/* Background Pattern */}
-      <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center mask-[linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+      <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-40 mask-[linear-gradient(180deg,white,rgba(255,255,255,0))]" />
 
       {/* Floating Orbs */}
-      <div className="absolute top-20 left-20 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-20 right-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
+      <div className="absolute top-20 left-20 w-72 h-72 bg-[#1d6fa5]/15 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-20 right-20 w-96 h-96 bg-[#257ba6]/15 rounded-full blur-3xl animate-pulse delay-1000" />
 
-      <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
+      <div className="relative z-10 min-h-screen flex items-center justify-center p-4 py-12">
         <div className="w-full max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Side - Auth Form */}
-          <div className="relative max-w-md mx-auto lg:mx-0">
+          <div className="relative max-w-md mx-auto lg:mx-0 w-full">
             {/* Glow effect */}
-            <div className="absolute inset-0 bg-linear-to-br from-blue-500/20 to-purple-500/20 rounded-3xl blur-xl opacity-60" />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#1d6fa5]/25 to-[#257ba6]/20 rounded-3xl blur-xl opacity-70" />
 
             {/* Main Card */}
-            <div className="relative bg-background/60 backdrop-blur-xl border border-border/50 rounded-3xl p-8 md:p-12 shadow-2xl">
+            <div className="relative bg-background/80 backdrop-blur-xl border border-[#1d6fa5]/20 rounded-3xl p-8 md:p-10 shadow-2xl">
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 animate-fade-in">
-                <Sparkles className="w-4 h-4 text-primary" />
-                <span className="text-sm font-medium text-primary">
-                  {authMode === "signin" ? "Welcome Back" : "Create Account"}
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1d6fa5]/10 border border-[#1d6fa5]/25 mb-6">
+                <Sparkles className="w-4 h-4 text-[#1d6fa5]" />
+                <span className="text-xs font-bold tracking-wide text-[#1d6fa5]">
+                  {authMode === "signin" ? "WELCOME BACK TO EXPLORIFY" : "START YOUR JOURNEY"}
                 </span>
               </div>
 
               {/* Heading */}
-              <h1 className="text-4xl md:text-5xl font-bold mb-4 animate-slide-down">
-                <span className="bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <h1 className="text-3xl md:text-4xl font-extrabold mb-3 leading-tight">
+                <span className="bg-gradient-to-r from-[#1d6fa5] to-[#257ba6] bg-clip-text text-transparent">
                   {authMode === "signin" ? "Sign in to" : "Join"}
-                </span>
-                <br />
+                </span>{" "}
                 <span className="text-foreground">Explorify</span>
               </h1>
 
               {/* Description */}
-              <p className="text-lg text-muted-foreground mb-8 animate-fade-in">
+              <p className="text-sm md:text-base text-muted-foreground mb-6 leading-relaxed">
                 {authMode === "signin"
-                  ? "Continue your journey and explore incredible destinations around the world."
-                  : "Create an account and start exploring amazing travel experiences."}
+                  ? "Continue your journey and explore verified travel itineraries across India."
+                  : "Create an account and start discovering handpicked travel packages."}
               </p>
 
               {/* Auth Method Toggle */}
@@ -190,7 +189,7 @@ export default function SignInPage() {
                     onClick={handleGoogleSignIn}
                     disabled={isLoading}
                     size="lg"
-                    className="w-full rounded-full py-6 text-lg bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-200 mb-6 animate-scale-in"
+                    className="w-full rounded-full py-6 text-base font-bold bg-gradient-to-r from-[#1d6fa5] to-[#257ba6] hover:from-[#175b88] hover:to-[#1d6fa5] text-white shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 mb-5 border-0"
                   >
                     {isLoading ? (
                       <>
@@ -200,7 +199,7 @@ export default function SignInPage() {
                     ) : (
                       <>
                         <svg
-                          className="w-5 h-5 mr-2"
+                          className="w-5 h-5 mr-2 bg-white rounded-full p-0.5"
                           viewBox="0 0 24 24"
                           fill="currentColor"
                         >
@@ -222,19 +221,19 @@ export default function SignInPage() {
                           />
                         </svg>
                         Continue with Google
-                        <ArrowRight className="w-5 h-5 ml-2" />
+                        <ArrowRight className="w-4 h-4 ml-2" />
                       </>
                     )}
                   </Button>
 
                   {/* Divider */}
-                  <div className="relative mb-6">
+                  <div className="relative mb-5">
                     <div className="absolute inset-0 flex items-center">
-                      <div className="w-full border-t border-border/50" />
+                      <div className="w-full border-t border-border/60" />
                     </div>
-                    <div className="relative flex justify-center text-xs uppercase">
-                      <span className="bg-background/60 px-2 text-muted-foreground">
-                        Or
+                    <div className="relative flex justify-center text-xs uppercase font-bold tracking-wider">
+                      <span className="bg-background/80 px-3 text-muted-foreground">
+                        Or continue with
                       </span>
                     </div>
                   </div>
@@ -244,9 +243,9 @@ export default function SignInPage() {
                     onClick={() => setAuthMethod("email")}
                     variant="outline"
                     size="lg"
-                    className="w-full rounded-full py-6 text-lg hover:bg-accent/50 transition-all duration-200 mb-6"
+                    className="w-full rounded-full py-5 text-sm font-bold border-[#1d6fa5]/30 text-[#1d6fa5] hover:bg-[#1d6fa5]/10 transition-all duration-200 mb-6"
                   >
-                    <Mail className="w-5 h-5 mr-2" />
+                    <Mail className="w-4 h-4 mr-2" />
                     Continue with Email
                   </Button>
                 </>
@@ -256,14 +255,14 @@ export default function SignInPage() {
                   <form onSubmit={handleEmailAuth} className="space-y-4 mb-6">
                     {/* Success Message */}
                     {success && (
-                      <div className="p-3 rounded-lg bg-green-500/10 border border-green-500/20 text-green-600 text-sm">
+                      <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 text-sm font-medium">
                         {success}
                       </div>
                     )}
 
                     {/* Error Message */}
                     {error && (
-                      <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+                      <div className="p-3 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm font-medium">
                         {error}
                       </div>
                     )}
@@ -271,7 +270,7 @@ export default function SignInPage() {
                     {/* Name Field (Sign Up Only) */}
                     {authMode === "signup" && (
                       <div className="relative">
-                        <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                        <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                         <input
                           type="text"
                           placeholder="Full Name"
@@ -280,14 +279,14 @@ export default function SignInPage() {
                             setFormData({ ...formData, name: e.target.value })
                           }
                           required={authMode === "signup"}
-                          className="w-full pl-12 pr-4 py-3.5 rounded-xl bg-background/50 backdrop-blur-sm border border-border/50 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 placeholder:text-muted-foreground/70 transition-all duration-200"
+                          className="w-full pl-11 pr-4 py-3 rounded-xl bg-background/80 border border-border focus:outline-none focus:ring-2 focus:ring-[#1d6fa5]/40 focus:border-[#1d6fa5] placeholder:text-muted-foreground/70 text-sm font-medium transition-all"
                         />
                       </div>
                     )}
 
                     {/* Email Field */}
                     <div className="relative">
-                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                       <input
                         type="email"
                         placeholder="Email address"
@@ -296,13 +295,13 @@ export default function SignInPage() {
                           setFormData({ ...formData, email: e.target.value })
                         }
                         required
-                        className="w-full pl-12 pr-4 py-3.5 rounded-xl bg-background/50 backdrop-blur-sm border border-border/50 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 placeholder:text-muted-foreground/70 transition-all duration-200"
+                        className="w-full pl-11 pr-4 py-3 rounded-xl bg-background/80 border border-border focus:outline-none focus:ring-2 focus:ring-[#1d6fa5]/40 focus:border-[#1d6fa5] placeholder:text-muted-foreground/70 text-sm font-medium transition-all"
                       />
                     </div>
 
                     {/* Password Field */}
                     <div className="relative">
-                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                       <input
                         type={showPassword ? "text" : "password"}
                         placeholder="Password"
@@ -312,7 +311,7 @@ export default function SignInPage() {
                         }
                         required
                         minLength={authMode === "signup" ? 6 : undefined}
-                        className="w-full pl-12 pr-12 py-3.5 rounded-xl bg-background/50 backdrop-blur-sm border border-border/50 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 placeholder:text-muted-foreground/70 transition-all duration-200"
+                        className="w-full pl-11 pr-11 py-3 rounded-xl bg-background/80 border border-border focus:outline-none focus:ring-2 focus:ring-[#1d6fa5]/40 focus:border-[#1d6fa5] placeholder:text-muted-foreground/70 text-sm font-medium transition-all"
                       />
                       <button
                         type="button"
@@ -320,9 +319,9 @@ export default function SignInPage() {
                         className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                       >
                         {showPassword ? (
-                          <EyeOff className="w-5 h-5" />
+                          <EyeOff className="w-4 h-4" />
                         ) : (
-                          <Eye className="w-5 h-5" />
+                          <Eye className="w-4 h-4" />
                         )}
                       </button>
                     </div>
@@ -339,7 +338,7 @@ export default function SignInPage() {
                       type="submit"
                       disabled={isLoading}
                       size="lg"
-                      className="w-full rounded-full py-6 text-lg bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-200"
+                      className="w-full rounded-full py-5 text-base font-bold bg-gradient-to-r from-[#1d6fa5] to-[#257ba6] hover:from-[#175b88] hover:to-[#1d6fa5] text-white shadow-md border-0"
                     >
                       {isLoading ? (
                         <>
@@ -351,7 +350,7 @@ export default function SignInPage() {
                       ) : (
                         <>
                           {authMode === "signin" ? "Sign In" : "Create Account"}
-                          <ArrowRight className="w-5 h-5 ml-2" />
+                          <ArrowRight className="w-4 h-4 ml-2" />
                         </>
                       )}
                     </Button>
@@ -368,7 +367,7 @@ export default function SignInPage() {
                         setError("");
                         setSuccess("");
                       }}
-                      className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                      className="text-xs sm:text-sm font-semibold text-muted-foreground hover:text-[#1d6fa5] transition-colors"
                     >
                       {authMode === "signin"
                         ? "Don't have an account? Sign up"
@@ -385,7 +384,7 @@ export default function SignInPage() {
                     }}
                     variant="ghost"
                     size="sm"
-                    className="w-full rounded-full"
+                    className="w-full rounded-full text-xs font-semibold text-[#1d6fa5]"
                   >
                     Back to other options
                   </Button>
@@ -393,19 +392,18 @@ export default function SignInPage() {
               )}
 
               {/* Features Grid */}
-              <div className="grid grid-cols-2 gap-3 mb-8">
+              <div className="grid grid-cols-2 gap-3 mb-6 pt-2">
                 {features.map((feature, index) => {
                   const Icon = feature.icon;
                   return (
                     <div
                       key={index}
-                      className="flex items-center gap-2 p-3 rounded-xl bg-accent/50 border border-border/30 hover:border-primary/30 transition-all duration-200"
-                      style={{ animationDelay: `${index * 100}ms` }}
+                      className="flex items-center gap-2 p-2.5 rounded-xl bg-accent/40 border border-border/40 hover:border-[#1d6fa5]/40 transition-all"
                     >
-                      <div className="w-8 h-8 rounded-lg bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center shrink-0">
-                        <Icon className="w-4 h-4 text-white" />
+                      <div className="w-7 h-7 rounded-lg bg-gradient-to-r from-[#1d6fa5] to-[#257ba6] flex items-center justify-center shrink-0 shadow-xs">
+                        <Icon className="w-3.5 h-3.5 text-white" />
                       </div>
-                      <span className="text-sm font-medium">
+                      <span className="text-xs font-semibold text-foreground/90">
                         {feature.text}
                       </span>
                     </div>
@@ -414,31 +412,30 @@ export default function SignInPage() {
               </div>
 
               {/* Security Badge */}
-              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                <Lock className="w-4 h-4" />
-                <span>Secure authentication powered by Google</span>
+              <div className="flex items-center justify-center gap-2 text-xs font-medium text-muted-foreground">
+                <Lock className="w-3.5 h-3.5 text-[#1d6fa5]" />
+                <span>256-bit SSL encrypted connection</span>
               </div>
             </div>
           </div>
 
           {/* Right Side - Benefits */}
-          <div className="hidden lg:block space-y-6 animate-fade-in">
+          <div className="hidden lg:block space-y-6">
             {/* Benefits Card */}
-            <div className="bg-background/40 backdrop-blur-lg border border-border/30 rounded-2xl p-6">
-              <h3 className="text-2xl font-bold mb-6">
-                Why Travelers Choose Us
+            <div className="bg-background/60 backdrop-blur-xl border border-[#1d6fa5]/20 rounded-3xl p-8 shadow-xl">
+              <h3 className="text-2xl font-bold mb-6 text-foreground">
+                Why Explorers Trust Us
               </h3>
               <div className="space-y-4">
                 {benefits.map((benefit, index) => (
                   <div
                     key={index}
-                    className="flex items-center gap-3 group"
-                    style={{ animationDelay: `${index * 100}ms` }}
+                    className="flex items-center gap-3.5 group"
                   >
-                    <div className="w-6 h-6 rounded-full bg-linear-to-br from-green-500 to-emerald-600 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-200">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-[#1d6fa5] to-[#257ba6] flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                       <CheckCircle2 className="w-4 h-4 text-white" />
                     </div>
-                    <span className="text-foreground font-medium">
+                    <span className="text-foreground/90 font-semibold text-sm">
                       {benefit}
                     </span>
                   </div>
@@ -447,27 +444,26 @@ export default function SignInPage() {
             </div>
 
             {/* Testimonial Card */}
-            <div className="bg-background/40 backdrop-blur-lg border border-border/30 rounded-2xl p-6">
+            <div className="bg-background/60 backdrop-blur-xl border border-[#1d6fa5]/20 rounded-3xl p-6 shadow-xl">
               <div className="flex gap-1 mb-3">
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className="w-5 h-5 fill-yellow-500 text-yellow-500"
+                    className="w-4 h-4 fill-amber-400 text-amber-400"
                   />
                 ))}
               </div>
-              <p className="text-foreground mb-4 italic">
-                &quot;Best travel platform I&apos;ve ever used! Found amazing hidden gems
-                and the booking process was seamless. Highly recommended!&quot;
+              <p className="text-foreground/90 text-sm mb-4 italic leading-relaxed">
+                &quot;Explorify helped me plan an unforgettable trip to Kashmir. The local operator coordination and instant booking confirmation were seamless!&quot;
               </p>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
-                  JD
+                <div className="w-9 h-9 rounded-full bg-gradient-to-r from-[#1d6fa5] to-[#257ba6] flex items-center justify-center text-white font-bold text-sm shadow-md">
+                  MG
                 </div>
                 <div>
-                  <div className="font-semibold">John Doe</div>
-                  <div className="text-sm text-muted-foreground">
-                    Travel Enthusiast
+                  <div className="font-bold text-sm text-foreground">Manasvi Gangrade</div>
+                  <div className="text-xs text-muted-foreground">
+                    Verified Traveller
                   </div>
                 </div>
               </div>
@@ -477,17 +473,17 @@ export default function SignInPage() {
             <div className="grid grid-cols-3 gap-4">
               {[
                 { value: "100+", label: "Destinations" },
-                { value: "50+", label: "Travelers" },
+                { value: "50k+", label: "Explorers" },
                 { value: "4.9★", label: "Rating" },
               ].map((stat, index) => (
                 <div
                   key={index}
-                  className="bg-background/40 backdrop-blur-lg border border-border/30 rounded-xl p-4 text-center hover:scale-105 transition-all duration-200"
+                  className="bg-background/60 backdrop-blur-xl border border-[#1d6fa5]/20 rounded-2xl p-4 text-center hover:scale-105 transition-all shadow-md"
                 >
-                  <div className="text-2xl font-bold bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  <div className="text-xl font-extrabold bg-gradient-to-r from-[#1d6fa5] to-[#257ba6] bg-clip-text text-transparent">
                     {stat.value}
                   </div>
-                  <div className="text-sm text-muted-foreground mt-1">
+                  <div className="text-xs font-medium text-muted-foreground mt-0.5">
                     {stat.label}
                   </div>
                 </div>
@@ -500,7 +496,7 @@ export default function SignInPage() {
         <div className="absolute bottom-4 left-0 right-0 text-center">
           <p className="text-xs text-muted-foreground">
             By continuing, you agree to our{" "}
-            <a href="/terms" className="text-primary hover:underline">
+            <a href="/terms" className="text-[#1d6fa5] hover:underline">
               Terms of Service
             </a>{" "}
             and{" "}

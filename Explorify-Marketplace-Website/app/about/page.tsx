@@ -57,14 +57,14 @@ export default function AboutPage() {
       </section>
 
       <section className="mx-auto max-w-5xl px-4 pb-16 sm:px-6 lg:px-8">
-        <ol className="space-y-6 border-l-2 border-dashed border-[#1a213a]/40 pl-6">
+        <ol className="space-y-6 border-l-2 border-dashed border-[#1d6fa5]/40 pl-6">
           {timeline.map((row, i) => (
             <Reveal as="li" key={row.year} delay={i * 90} className="relative">
-              <span className="absolute -left-[38px] grid size-8 place-items-center rounded-full bg-[#1a213a] text-[10px] font-bold text-white">
+              <span className="absolute -left-[38px] grid size-8 place-items-center rounded-full bg-[#1d6fa5] text-[10px] font-bold text-white">
                 {row.year.slice(2)}
               </span>
               <div className="rounded-2xl border border-border bg-card p-5 shadow-soft">
-                <p className="text-xs font-semibold tracking-widest text-[#1a213a] dark:text-sky-300 uppercase">
+                <p className="text-xs font-semibold tracking-widest text-[#1d6fa5] dark:text-sky-300 uppercase">
                   {row.year}
                 </p>
                 <h2 className="mt-1 font-display text-xl text-foreground">{row.t}</h2>

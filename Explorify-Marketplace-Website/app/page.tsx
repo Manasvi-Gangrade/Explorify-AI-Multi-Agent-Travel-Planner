@@ -12,6 +12,12 @@ import {
   Quote,
   Sparkles,
   Star,
+  Play,
+  Pause,
+  Volume2,
+  VolumeX,
+  Compass,
+  Film,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { DestinationSearch } from "@/components/destination-search";
@@ -28,22 +34,22 @@ import {
 
 const heroSlides = [
   {
-    image: images.heroKashmir.src || images.heroKashmir,
+    image: typeof images.heroKashmir === "string" ? images.heroKashmir : (images.heroKashmir as any).src,
     alt: "Shikara boats on Dal Lake, Srinagar, Kashmir at sunrise",
     kicker: "Kashmir",
   },
   {
-    image: images.heroRajasthan.src || images.heroRajasthan,
+    image: typeof images.heroRajasthan === "string" ? images.heroRajasthan : (images.heroRajasthan as any).src,
     alt: "Camels crossing the Thar desert dunes below Jaisalmer fort at sunset",
     kicker: "Rajasthan",
   },
   {
-    image: images.heroKerala.src || images.heroKerala,
+    image: typeof images.heroKerala === "string" ? images.heroKerala : (images.heroKerala as any).src,
     alt: "Houseboat drifting through palm-lined Kerala backwaters",
     kicker: "Kerala",
   },
   {
-    image: images.heroLadakh.src || images.heroLadakh,
+    image: typeof images.heroLadakh === "string" ? images.heroLadakh : (images.heroLadakh as any).src,
     alt: "Turquoise Pangong Tso lake framed by Ladakh mountains",
     kicker: "Ladakh",
   },
@@ -55,56 +61,73 @@ function Hero() {
   useEffect(() => {
     const id = window.setInterval(
       () => setActive((a) => (a + 1) % heroSlides.length),
-      6500,
+      3200,
     );
     return () => window.clearInterval(id);
   }, []);
 
   return (
-    <section className="relative -mt-[68px] min-h-[92vh] overflow-hidden pt-[68px]">
+    <section className="relative min-h-[calc(100vh-115px)] flex flex-col justify-center overflow-hidden py-6 sm:py-8 lg:py-10">
+      {/* Background Ambient Video Stream */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="h-full w-full object-cover scale-105 filter brightness-75 opacity-40 transition-opacity duration-1000"
+          poster={typeof heroSlides[0].image === "string" ? heroSlides[0].image : (heroSlides[0].image as any).src}
+        >
+          <source
+            src="https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-mountains-covered-in-snow-41517-large.mp4"
+            type="video/mp4"
+          />
+        </video>
+      </div>
+
       {heroSlides.map((slide, i) => (
         <div
           key={slide.kicker}
           aria-hidden={i !== active}
-          className={`absolute inset-0 transition-opacity duration-[1600ms] ${
-            i === active ? "opacity-100" : "opacity-0"
+          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+            i === active ? "opacity-60" : "opacity-0"
           }`}
         >
           <img
             src={typeof slide.image === "string" ? slide.image : (slide.image as any).src}
             alt={i === active ? slide.alt : ""}
-            className="h-full w-full object-cover animate-[ken-burns_22s_ease-in-out_infinite_alternate]"
+            className="h-full w-full object-cover animate-[ken-burns_18s_ease-in-out_infinite_alternate]"
           />
         </div>
       ))}
-      <div className="absolute inset-0 scrim" />
+      <div className="absolute inset-0 scrim z-0" />
 
-      <div className="relative mx-auto flex min-h-[calc(92vh-68px)] max-w-7xl flex-col justify-center px-4 py-20 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto flex max-w-7xl flex-col justify-center px-4 sm:px-6 lg:px-8 w-full">
         <div className="max-w-3xl">
-          <span className="inline-flex items-center gap-2 rounded-full bg-card/90 px-4 py-1.5 text-xs font-semibold tracking-wide text-primary backdrop-blur">
+          <span className="inline-flex items-center gap-2 rounded-full bg-card/90 px-3.5 py-1 text-xs font-semibold tracking-wide text-primary backdrop-blur shadow-sm">
             <Sparkles className="size-3.5 text-gold" />
             {heroSlides[active].kicker} · Departures open for 2026
           </span>
-          <h1 className="mt-5 font-display text-4xl leading-[1.05] text-primary-foreground text-balance-display sm:text-6xl lg:text-7xl">
+          <h1 className="mt-3 font-display text-3xl leading-[1.08] text-primary-foreground text-balance-display sm:text-5xl lg:text-6xl font-bold">
             India, the way it deserves to be travelled.
           </h1>
-          <p className="mt-5 max-w-xl text-base leading-relaxed text-primary-foreground/90 sm:text-lg">
+          <p className="mt-3 max-w-xl text-sm leading-relaxed text-primary-foreground/90 sm:text-base lg:text-lg">
             Handpicked journeys across the valleys, deserts, backwaters and
             coastlines of India — designed with local operators who actually
             live there.
           </p>
         </div>
 
-        <div className="mt-9">
+        <div className="mt-6">
           <DestinationSearch />
         </div>
 
-        <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm text-primary-foreground/90">
-          <span className="inline-flex items-center gap-2">
+        <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs sm:text-sm text-primary-foreground/90">
+          <span className="inline-flex items-center gap-1.5 font-medium">
             <Star className="size-4 fill-gold text-gold" /> 4.8 average from
             2,400+ travellers
           </span>
-          <span className="inline-flex items-center gap-2">
+          <span className="inline-flex items-center gap-1.5 font-medium">
             <BadgeCheck className="size-4 text-gold" /> 100% verified operators
           </span>
         </div>
@@ -135,6 +158,163 @@ function TrustStrip() {
           </Reveal>
         ))}
       </ul>
+    </section>
+  );
+}
+
+function VideoShowcase() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isMuted, setIsMuted] = useState(true);
+  const [activeVideo, setActiveVideo] = useState(0);
+
+  const videos = [
+    {
+      title: "Himalayan Snow Peaks & Kashmir Valleys",
+      location: "Gulmarg & Srinagar, Kashmir",
+      url: "/videos/Mountains.mp4",
+      fallbackUrl: "https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-mountains-covered-in-snow-41517-large.mp4",
+      tag: "Himalayan Expedition",
+    },
+    {
+      title: "Konkan & Tropical Beach Coastlines",
+      location: "North & South Goa Coastlines",
+      url: "/videos/Beach.mp4",
+      fallbackUrl: "https://assets.mixkit.co/videos/preview/mixkit-top-view-of-a-beach-and-the-sea-41527-large.mp4",
+      tag: "Coastal Escape",
+    },
+    {
+      title: "Spiritual Ganges & Forest Sanctuaries",
+      location: "Rishikesh & Western Ghats",
+      url: "/videos/Wildlife.mp4",
+      fallbackUrl: "https://assets.mixkit.co/videos/preview/mixkit-trees-in-a-forest-seen-from-below-41526-large.mp4",
+      tag: "Nature & Wilderness",
+    },
+  ];
+
+  // Auto-rotate videos every 7 seconds or when video ends
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveVideo((prev) => (prev + 1) % videos.length);
+    }, 7000);
+    return () => clearInterval(timer);
+  }, [videos.length]);
+
+  const togglePlay = () => {
+    if (!videoRef.current) return;
+    if (isPlaying) {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      videoRef.current.play();
+      setIsPlaying(true);
+    }
+  };
+
+  const toggleMute = () => {
+    if (!videoRef.current) return;
+    videoRef.current.muted = !isMuted;
+    setIsMuted(!isMuted);
+  };
+
+  return (
+    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+      <div className="flex flex-wrap items-end justify-between gap-4 mb-6">
+        <div>
+          <span className="inline-flex items-center gap-2 rounded-full bg-accent px-3.5 py-1 text-xs font-semibold text-azure">
+            <Film className="size-3.5 text-[#1d6fa5]" /> Explorify Travel Cinema
+          </span>
+          <h2 className="mt-2 font-display text-3xl sm:text-4xl font-bold text-foreground">
+            Feel the journey before you take off
+          </h2>
+          <p className="mt-1 text-muted-foreground text-sm sm:text-base max-w-xl">
+            Immerse yourself in 4K cinematic captures from our handpicked Indian expeditions.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={togglePlay}
+            className="size-9 rounded-full border-border text-foreground hover:bg-accent"
+            aria-label={isPlaying ? "Pause video" : "Play video"}
+          >
+            {isPlaying ? <Pause className="size-4" /> : <Play className="size-4" />}
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={toggleMute}
+            className="size-9 rounded-full border-border text-foreground hover:bg-accent"
+            aria-label={isMuted ? "Unmute video" : "Mute video"}
+          >
+            {isMuted ? <VolumeX className="size-4" /> : <Volume2 className="size-4" />}
+          </Button>
+        </div>
+      </div>
+
+      {/* Broad Video Player Frame */}
+      <div className="relative aspect-[21/9] min-h-[320px] max-h-[460px] w-full overflow-hidden rounded-3xl border border-border shadow-2xl bg-slate-950 group">
+        <video
+          ref={videoRef}
+          key={videos[activeVideo].url}
+          src={videos[activeVideo].url}
+          onEnded={() => setActiveVideo((prev) => (prev + 1) % videos.length)}
+          onError={(e) => {
+            const target = e.currentTarget;
+            if (target.src !== videos[activeVideo].fallbackUrl) {
+              target.src = videos[activeVideo].fallbackUrl;
+            }
+          }}
+          autoPlay
+          loop={false}
+          muted={isMuted}
+          playsInline
+          className="h-full w-full object-cover transition-opacity duration-700"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent" />
+
+        <div className="absolute bottom-6 left-6 right-6 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#1d6fa5] px-3.5 py-1 text-xs font-bold text-white shadow-md">
+              <Compass className="size-3.5" />
+              {videos[activeVideo].tag}
+            </span>
+            <h3 className="mt-2 text-xl sm:text-3xl font-bold font-display text-white">
+              {videos[activeVideo].title}
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-300 mt-0.5">
+              {videos[activeVideo].location}
+            </p>
+          </div>
+
+          {/* Video Selector Tabs */}
+          <div className="flex flex-wrap gap-2">
+            {videos.map((vid, idx) => (
+              <button
+                key={vid.title}
+                type="button"
+                onClick={() => {
+                  setActiveVideo(idx);
+                  setIsPlaying(true);
+                  if (videoRef.current) {
+                    videoRef.current.currentTime = 0;
+                    videoRef.current.play();
+                  }
+                }}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                  activeVideo === idx
+                    ? "bg-white text-slate-900 shadow-md scale-105"
+                    : "bg-white/20 text-white hover:bg-white/30 backdrop-blur"
+                }`}
+              >
+                {vid.tag}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
@@ -311,7 +491,7 @@ function PlannerTeaser() {
                 { d: 3, t: "Gulmarg gondola and meadow trails" },
               ].map((row) => (
                 <li key={row.d} className="flex gap-3">
-                  <span className="grid size-8 shrink-0 place-items-center rounded-full bg-[#1a213a] text-xs font-bold text-white">
+                  <span className="grid size-8 shrink-0 place-items-center rounded-full bg-[#1d6fa5] text-xs font-bold text-white">
                     {row.d}
                   </span>
                   <span className="text-sm text-foreground/85">{row.t}</span>
@@ -393,12 +573,12 @@ function Testimonials() {
 
 function Gallery() {
   const shots = [
-    { src: images.destSpiti.src || images.destSpiti, alt: "Key Monastery above Spiti Valley" },
-    { src: images.attrHawa.src || images.attrHawa, alt: "Hawa Mahal facade in Jaipur" },
-    { src: images.destGoa.src || images.destGoa, alt: "Sunset over Palolem beach in Goa" },
-    { src: images.attrGolden.src || images.attrGolden, alt: "Golden Temple reflected in the sacred pool, Amritsar" },
-    { src: images.destMeghalaya.src || images.destMeghalaya, alt: "Living root bridge in Meghalaya" },
-    { src: images.attrTaj.src || images.attrTaj, alt: "Taj Mahal at sunrise in Agra" },
+    { src: typeof images.destSpiti === "string" ? images.destSpiti : (images.destSpiti as any).src, alt: "Key Monastery above Spiti Valley" },
+    { src: typeof images.attrHawa === "string" ? images.attrHawa : (images.attrHawa as any).src, alt: "Hawa Mahal facade in Jaipur" },
+    { src: typeof images.destGoa === "string" ? images.destGoa : (images.destGoa as any).src, alt: "Sunset over Palolem beach in Goa" },
+    { src: typeof images.attrGolden === "string" ? images.attrGolden : (images.attrGolden as any).src, alt: "Golden Temple reflected in the sacred pool, Amritsar" },
+    { src: typeof images.destMeghalaya === "string" ? images.destMeghalaya : (images.destMeghalaya as any).src, alt: "Living root bridge in Meghalaya" },
+    { src: typeof images.attrTaj === "string" ? images.attrTaj : (images.attrTaj as any).src, alt: "Taj Mahal at sunrise in Agra" },
   ];
   return (
     <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
@@ -433,7 +613,7 @@ function ReferralAndNewsletter() {
     <section className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
       <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr]">
         <Reveal className="h-full">
-          <div className="h-full rounded-3xl bg-[#1a213a] p-9 text-white shadow-float">
+          <div className="h-full rounded-3xl bg-[#1d6fa5] p-9 text-white shadow-float">
             <h2 className="font-display text-3xl text-white">
               Get 10% off your first booking
             </h2>
@@ -505,6 +685,7 @@ export default function HomePage() {
     <>
       <Hero />
       <TrustStrip />
+      <VideoShowcase />
       <AttractionsRail />
       <FeaturedTrips />
       <Regions />

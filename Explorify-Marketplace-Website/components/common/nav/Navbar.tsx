@@ -6,6 +6,9 @@ import { useSession } from "next-auth/react";
 import ProfileMenu from "./ProfileMenu";
 import { MapPin, Ticket, Compass } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { GoogleTranslateWidget } from "@/components/common/StandaloneTranslateTTS";
+import { VoiceNavigationAssistant } from "@/components/common/VoiceNavigationAssistant";
+import { AudioGuideToggle } from "@/components/common/AudioGuideToggle";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
@@ -21,22 +24,25 @@ export default function Navbar() {
     <>
       {/* ── Brand Bar (static, part of page flow) ── */}
       <div className="relative z-40 border-b border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-slate-950">
-        <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 h-16 flex items-center justify-between gap-2">
           {/* Logo */}
           <Link
             href="/"
             className="flex items-center gap-2 font-bold text-lg hover:scale-105 transition-transform duration-200 shrink-0"
           >
-            <div className="w-10 h-10 rounded-full bg-[#1a213a] flex items-center justify-center text-white font-bold shadow-md">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#1d6fa5] flex items-center justify-center text-white font-bold shadow-md text-sm sm:text-base">
               E
             </div>
-            <span className="text-[#1a213a] dark:text-white font-extrabold text-xl">
+            <span className="text-[#1d6fa5] dark:text-white font-extrabold text-lg sm:text-xl notranslate" translate="no">
               ExplorifyTrips
             </span>
           </Link>
 
-          {/* Profile / Sign In */}
-          <div className="flex items-center gap-3 shrink-0">
+          {/* Translation Widget, Audio Voice (Speaker) & Voice Assistant (Mic) */}
+          <div className="flex items-center gap-2 shrink-0">
+            <AudioGuideToggle />
+            <VoiceNavigationAssistant />
+            <GoogleTranslateWidget />
             {status === "loading" ? (
               <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 animate-pulse" />
             ) : session ? (
@@ -45,7 +51,7 @@ export default function Navbar() {
               <Link href="/auth/sign-in">
                 <Button
                   size="sm"
-                  className="rounded-full bg-[#1a213a] hover:bg-[#151b30] text-white transition-all duration-200 hover:scale-105 shadow-md"
+                  className="rounded-full bg-gradient-to-r from-[#1d6fa5] to-[#257ba6] text-white font-bold shadow-md hover:scale-105 transition-all border-0 px-4 py-1.5"
                 >
                   Sign In
                 </Button>
@@ -67,12 +73,12 @@ export default function Navbar() {
                   key={item.href}
                   href={item.href}
                   className={`
-                    flex items-center gap-2 px-3 py-2 sm:px-4 rounded-full text-sm font-medium
+                    flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-semibold
                     transition-all duration-200 hover:scale-105
                     ${
                       isActive
-                        ? "bg-[#1a213a]/10 text-[#1a213a] dark:bg-[#1a213a]/30 dark:text-sky-300 font-bold"
-                        : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100"
+                        ? "bg-[#1d6fa5]/12 text-[#1d6fa5] dark:bg-[#1d6fa5]/25 dark:text-sky-300 font-bold border border-[#1d6fa5]/30 shadow-xs"
+                        : "text-slate-700 dark:text-slate-300 hover:bg-[#1d6fa5]/10 hover:text-[#1d6fa5]"
                     }
                   `}
                 >

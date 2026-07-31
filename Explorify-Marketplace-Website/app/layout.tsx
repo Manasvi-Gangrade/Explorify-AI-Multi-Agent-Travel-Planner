@@ -21,6 +21,9 @@ export const metadata: Metadata = {
   description: "Explore India with custom itineraries, verified local operators, and real-time AI travel planning.",
 };
 
+import { TTSProvider } from "@/components/common/StandaloneTranslateTTS";
+import { CurrencyProvider } from "@/hooks/use-currency";
+
 export default function RootLayout({
   children,
 }: {
@@ -43,12 +46,16 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AuthProvider>
-            <SiteHeader />
-            <main className="flex-1">{children}</main>
-            <SiteFooter />
-            <WhatsAppButton />
-            <MobileTabBar />
-            <Toaster position="top-right" richColors />
+            <CurrencyProvider>
+              <TTSProvider>
+                <SiteHeader />
+                <main className="flex-1">{children}</main>
+                <SiteFooter />
+                <WhatsAppButton />
+                <MobileTabBar />
+                <Toaster position="top-right" richColors />
+              </TTSProvider>
+            </CurrencyProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>

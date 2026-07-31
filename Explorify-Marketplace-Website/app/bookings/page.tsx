@@ -1,19 +1,43 @@
 "use client";
 
 import Link from "next/link";
-import { CalendarDays, LifeBuoy, Ticket } from "lucide-react";
+import { CalendarDays, LifeBuoy, Ticket, Trash2 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getTrip, trips, formatINR } from "@/lib/site-data";
+import { generateExplorifyPdfTicket } from "@/lib/pdf-generator";
 
 export default function BookingsPage() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const [dbBookings, setDbBookings] = useState<any[]>([]);
   const [localBookings, setLocalBookings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("explorify_bookings");
+    const hasLocal = saved && JSON.parse(saved).length > 0;
+    if (status === "unauthenticated" && !hasLocal) {
+      toast.error("Sign in required! Please log in to view your bookings.");
+      router.push("/auth/sign-in?callbackUrl=/bookings");
+    }
+  }, [status, router]);
+
+  const handleClearBookings = async () => {
+    localStorage.removeItem("explorify_bookings");
+    setLocalBookings([]);
+    try {
+      await fetch("/api/bookings", { method: "DELETE" });
+      setDbBookings([]);
+      toast.success("All test bookings cleared successfully!");
+    } catch (e) {
+      toast.error("Cleared local bookings.");
+    }
+  };
 
   // Load bookings
   useEffect(() => {
@@ -97,64 +121,48 @@ export default function BookingsPage() {
     });
   }, [allBookings]);
 
-  // Seed default dummy bookings if none exist for a fresh demonstration
-  const displayUpcoming = useMemo(() => {
-    if (upcomingBookings.length > 0) return upcomingBookings;
-    // Fallback dummies just for visual display if they haven't booked anything
-    const t = trips[0];
-    return [
-      {
-        bookingId: "demo-up-1",
-        tripId: t.id,
-        name: t.name,
-        destination: t.destination,
-        image: t.image,
-        date: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-        days: t.days,
-        nights: t.nights,
-        numPeople: 2,
-        totalAmount: t.price * 2.1,
-        paymentStatus: "completed",
-        bookingStatus: "confirmed",
-        createdAt: new Date().toISOString(),
-        isDemo: true,
-      }
-    ];
-  }, [upcomingBookings]);
+  const displayUpcoming = upcomingBookings;
+  const displayPast = pastBookings;
 
-  const displayPast = useMemo(() => {
-    if (pastBookings.length > 0) return pastBookings;
-    const t = trips[1];
-    return [
-      {
-        bookingId: "demo-past-1",
-        tripId: t.id,
-        name: t.name,
-        destination: t.destination,
-        image: t.image,
-        date: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-        days: t.days,
-        nights: t.nights,
-        numPeople: 3,
-        totalAmount: t.price * 3.15,
-        paymentStatus: "completed",
-        bookingStatus: "completed",
-        createdAt: new Date().toISOString(),
-        isDemo: true,
-      }
-    ];
-  }, [pastBookings]);
+  const handlePrintPdf = (b: any) => {
+    generateExplorifyPdfTicket({
+      bookingId: b.bookingId,
+      tripId: b.tripId,
+      tripName: b.name,
+      destination: b.destination,
+      days: b.days || 6,
+      nights: b.nights || 5,
+      customerName: session?.user?.name || "Explorer Passenger",
+      customerPhone: "+91 98765 43210",
+      customerEmail: session?.user?.email || "explorer@explorify.ai",
+      date: b.date,
+      travellers: b.numPeople || 1,
+      totalAmount: b.totalAmount,
+    });
+  };
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 bg-background min-h-[70vh]">
-      <h1 className="font-display text-3xl sm:text-4xl text-foreground">My bookings</h1>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <h1 className="font-display text-3xl sm:text-4xl text-foreground">My bookings</h1>
+        {allBookings.length > 0 && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleClearBookings}
+            className="text-destructive hover:bg-destructive/10 border-destructive/30 w-fit"
+          >
+            <Trash2 className="size-4 mr-1.5" /> Clear All Test Bookings
+          </Button>
+        )}
+      </div>
 
       {loading ? (
         <div className="mt-12 text-center py-8">
           <div className="w-8 h-8 border-2 border-azure border-t-transparent rounded-full animate-spin mx-auto mb-4" />
           <p className="text-muted-foreground text-sm">Retrieving your bookings...</p>
         </div>
-      ) : allBookings.length === 0 && !session ? (
+      ) : allBookings.length === 0 ? (
         <div className="mt-10 rounded-3xl border border-dashed border-border bg-card p-12 text-center">
           <span className="mx-auto grid size-20 place-items-center rounded-full bg-gradient-warm text-primary-foreground">
             <Ticket className="size-9" />
@@ -181,7 +189,12 @@ export default function BookingsPage() {
             { key: "past", list: displayPast },
           ].map((group) => (
             <TabsContent key={group.key} value={group.key} className="mt-6 space-y-4">
-              {group.list.map((b) => (
+              {group.list.length === 0 ? (
+                <div className="py-12 text-center text-muted-foreground border border-dashed border-border rounded-2xl">
+                  No {group.key} bookings found.
+                </div>
+              ) : (
+                group.list.map((b) => (
                 <article
                   key={b.bookingId}
                   className="grid gap-4 rounded-2xl border border-border bg-card p-4 shadow-soft sm:grid-cols-[160px_minmax(0,1fr)] hover-lift"
@@ -219,7 +232,9 @@ export default function BookingsPage() {
                     </div>
 
                     <div className="mt-4 flex flex-wrap gap-2">
-                      <Button size="sm" variant="outline">View voucher</Button>
+                      <Button size="sm" variant="outline" onClick={() => handlePrintPdf(b)}>
+                        View voucher (PDF)
+                      </Button>
                       <Button size="sm" variant="outline" asChild>
                         <a href="https://wa.me/911234567890" target="_blank" rel="noopener noreferrer">
                           <LifeBuoy className="size-3.5 mr-1" /> Contact support
@@ -239,7 +254,8 @@ export default function BookingsPage() {
                     </div>
                   </div>
                 </article>
-              ))}
+              ))
+              )}
             </TabsContent>
           ))}
         </Tabs>

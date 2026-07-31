@@ -3,7 +3,7 @@ import { Mail, MapPin } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="relative bg-[#1a213a] text-slate-200 mt-auto">
+    <footer className="relative bg-[#1d6fa5] text-slate-200 mt-auto">
       {/* Decorative gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
 
@@ -11,7 +11,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Brand Section */}
           <div>
-            <div className="text-2xl font-extrabold text-white mb-3 tracking-wide">
+            <div className="text-2xl font-extrabold text-white mb-3 tracking-wide notranslate" translate="no">
               ExplorifyTrips
             </div>
             <p className="text-sm text-slate-300 mb-4 max-w-sm">
@@ -180,7 +180,7 @@ export default function Footer() {
         <div className="border-t border-slate-700/50 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-sm text-slate-400">
             © {new Date().getFullYear()}{" "}
-            <span className="text-white font-semibold">
+            <span className="text-white font-semibold notranslate" translate="no">
               ExplorifyTrips
             </span>
             . All rights reserved.

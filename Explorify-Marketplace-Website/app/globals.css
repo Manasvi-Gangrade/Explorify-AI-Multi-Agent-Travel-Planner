@@ -148,8 +148,8 @@
   );
   --gradient-azure: linear-gradient(
     135deg,
-    #1a213a 0%,
-    #252e4d 100%
+    #1d6fa5 0%,
+    #3a92b9 100%
   );
   --gradient-warm: linear-gradient(
     135deg,
@@ -698,4 +698,125 @@
 .tp-prose-invert strong {
   color: white;
   font-weight: 700;
+}
+
+/* ── Google Translate Banner & Tooltip Removal ── */
+.goog-te-banner-frame,
+iframe.goog-te-banner-frame,
+iframe.skiptranslate,
+iframe[id*="goog"],
+iframe[class*="goog"],
+.goog-te-banner,
+#goog-gt-tt,
+#goog-gt-vt,
+.goog-te-balloon-frame,
+.goog-te-spinner-pos,
+.VIpgJd-Z44Wjh-FW57-ge3P2e,
+.VIpgJd-ySuper-JNod2b,
+.VIpgJd-ySuper-JNod2b-g9f21b,
+[id*="goog-gt"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0px !important;
+  max-height: 0px !important;
+  width: 0px !important;
+  max-width: 0px !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  top: -9999px !important;
+  left: -9999px !important;
+}
+
+html, body {
+  top: 0px !important;
+  position: static !important;
+  margin-top: 0px !important;
+  padding-top: 0px !important;
+}
+
+/* Prevent Google Translate from changing text background color on hover */
+font[style*="background-color"] {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+#google_translate_element {
+  display: inline-block !important;
+}
+
+.goog-te-gadget {
+  color: transparent !important;
+  font-size: 0px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.goog-te-gadget > span,
+.goog-te-gadget > a,
+.goog-logo-link {
+  display: none !important;
+}
+
+.goog-te-gadget div {
+  display: inline-block !important;
+}
+
+.goog-te-combo {
+  background-color: transparent !important;
+  color: #1d6fa5 !important;
+  border: none !important;
+  outline: none !important;
+  padding: 2px 4px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  font-family: inherit !important;
+  cursor: pointer !important;
+  border-radius: 9999px !important;
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.goog-te-combo option {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  font-size: 13px !important;
+}
+
+/* --- WISHLIST HEART BURST ANIMATION --- */
+@keyframes float-heart-up {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.6) rotate(0deg);
+  }
+  50% {
+    opacity: 0.95;
+    transform: translate(calc(-50% + var(--dx)), calc(-50% - 70px)) scale(1.2) rotate(var(--rot));
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + (var(--dx) * 1.5)), calc(-50% - 150px)) scale(0.7) rotate(calc(var(--rot) * 2));
+  }
+}
+
+/* --- LIVE AGENT BROWSER VIEWPORT AUTO-SCROLL --- */
+@keyframes agent-scroll {
+  0% {
+    transform: translateY(0%);
+  }
+  50% {
+    transform: translateY(-35%);
+  }
+  100% {
+    transform: translateY(-65%);
+  }
+}
+
+.animate-agent-scroll {
+  animation: agent-scroll 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.animate-heart-burst {
+  animation: float-heart-up 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }

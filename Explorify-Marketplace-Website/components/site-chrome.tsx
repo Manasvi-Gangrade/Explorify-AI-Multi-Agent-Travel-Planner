@@ -4,6 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import ProfileMenu from "@/components/common/nav/ProfileMenu";
+import { CurrencySwitcher } from "@/components/common/CurrencySwitcher";
+import { AudioGuideToggle } from "@/components/common/AudioGuideToggle";
+import { VoiceNavigationAssistant } from "@/components/common/VoiceNavigationAssistant";
 import {
   Compass,
   Heart,
@@ -27,6 +30,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useWishlist } from "@/hooks/use-wishlist";
 import { cn } from "@/lib/utils";
+import { GoogleTranslateWidget } from "@/components/common/StandaloneTranslateTTS";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -40,11 +44,11 @@ const navLinks = [
 function Wordmark() {
   return (
     <Link href="/" className="flex items-center gap-2.5" aria-label="ExplorifyTrips home">
-      <span className="grid size-9 place-items-center rounded-xl bg-[#1a213a] text-white shadow-sm">
+      <span className="grid size-9 place-items-center rounded-xl bg-[#1d6fa5] text-white shadow-sm">
         <Compass className="size-5" />
       </span>
-      <span className="font-display text-xl leading-none font-semibold">
-        Explorify<span className="text-[#1a213a] dark:text-sky-300">Trips</span>
+      <span className="font-display text-xl leading-none font-semibold notranslate" translate="no">
+        Explorify<span className="text-[#1d6fa5] dark:text-sky-300">Trips</span>
       </span>
     </Link>
   );
@@ -55,101 +59,159 @@ export function SiteHeader() {
   const { ids } = useWishlist();
   const pathname = usePathname();
   const { data: session, status } = useSession();
+  const [isPulsing, setIsPulsing] = useState(false);
+
+  useEffect(() => {
+    if (ids.length > 0) {
+      setIsPulsing(true);
+      const timer = setTimeout(() => setIsPulsing(false), 400);
+      return () => clearTimeout(timer);
+    }
+  }, [ids.length]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/95 shadow-soft backdrop-blur-xl transition-all duration-300">
-      <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
-        <div className="flex min-w-0 items-center gap-8">
-          <Wordmark />
-          <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">
-            {navLinks.map((l) => {
-              const active = l.href === "/" ? pathname === "/" : pathname?.startsWith(l.href);
-              return (
-                <Link
-                  key={l.href}
-                  href={l.href}
-                  className={cn(
-                    "rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-primary",
-                    active ? "text-primary font-semibold" : "text-foreground/75"
-                  )}
-                >
-                  {l.label}
-                </Link>
-              );
-            })}
-          </nav>
-        </div>
+    <header className="sticky top-0 z-50 border-b border-slate-200/70 dark:border-slate-800/70 bg-[#f4f8fb]/95 dark:bg-slate-950/95 shadow-soft backdrop-blur-xl transition-all duration-300">
+      {/* Top Main Bar: Logo + All Utilities & Auth */}
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+        <Wordmark />
 
-        <div className="flex shrink-0 items-center gap-2">
-          {/* Wishlist Button */}
-          <Button asChild variant="ghost" size="icon" className="hidden sm:inline-flex">
-            <Link href="/wishlist" aria-label={`Wishlist, ${ids.length} saved trips`}>
-              <span className="relative">
-                <Heart className="size-5" />
-                {ids.length > 0 && (
-                  <span className="absolute -top-1.5 -right-2 grid h-4 min-w-4 place-items-center rounded-full bg-coral px-1 text-[10px] font-bold text-coral-foreground">
-                    {ids.length}
-                  </span>
-                )}
+        <div className="flex shrink-0 items-center gap-3 sm:gap-4 lg:gap-5">
+          {/* Language Selector Dropdown */}
+          <div className="flex items-center">
+            <GoogleTranslateWidget />
+          </div>
+
+          {/* Currency Switcher Dropdown */}
+          <div className="flex items-center">
+            <CurrencySwitcher />
+          </div>
+
+          {/* Audio Voice Guide (Speaker) & Voice Command Assistant (Mic) Side by Side */}
+          <div className="flex items-center gap-2 mr-3 sm:mr-5">
+            <AudioGuideToggle />
+            <VoiceNavigationAssistant />
+          </div>
+
+          {/* Subtle Vertical Divider Separator */}
+          <div className="h-6 w-[1px] bg-border/60 mx-2 sm:mx-3 hidden sm:block shrink-0" />
+
+          {/* Wishlist Button - Extra Large Red Heart */}
+          <Link
+            href="/wishlist"
+            aria-label={`Wishlist, ${ids.length} saved trips`}
+            className="relative flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-full text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-all hover:scale-110"
+          >
+            <Heart
+              className={cn(
+                "w-[25px] h-[25px] sm:w-[29px] sm:h-[29px] fill-rose-500 text-rose-500 transition-all duration-300",
+                isPulsing && "scale-125"
+              )}
+            />
+            {ids.length > 0 && (
+              <span className="absolute -top-1 -right-1 grid h-4.5 min-w-[18px] sm:h-5 sm:min-w-[20px] place-items-center rounded-full bg-rose-500 px-1 text-[10px] sm:text-[11px] font-extrabold text-white shadow-md border-2 border-background">
+                {ids.length}
               </span>
-            </Link>
-          </Button>
+            )}
+          </Link>
 
           {/* Plan with AI Button */}
-          <Button asChild variant="hero" size="sm" className="hidden sm:inline-flex">
+          <Button asChild variant="hero" size="sm" className="hidden sm:inline-flex rounded-full bg-gradient-to-r from-[#1d6fa5] to-[#257ba6] text-white font-bold px-4.5 py-2 text-xs sm:text-sm shadow-md border-0 hover:scale-105 transition-all">
             <Link href="/travel-planner">
-              <Sparkles /> Plan with AI
+              Plan with AI
             </Link>
           </Button>
 
           {/* Authentication Section */}
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="hidden sm:flex items-center gap-2 shrink-0">
             {status === "loading" ? (
               <div className="w-8 h-8 rounded-full bg-muted animate-pulse" />
             ) : session ? (
               <ProfileMenu user={session.user} />
             ) : (
-              <Button asChild variant="outline" size="sm" className="hidden sm:inline-flex">
+              <Button asChild size="sm" className="rounded-full bg-gradient-to-r from-[#1d6fa5] to-[#257ba6] text-white font-bold shadow-md hover:scale-105 transition-all border-0">
                 <Link href="/auth/sign-in">Sign In</Link>
               </Button>
             )}
           </div>
 
-          {/* Mobile Sheet Menu */}
+          {/* Mobile Sheet Menu Trigger */}
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button variant="outline" size="icon" className="lg:hidden" aria-label="Open menu">
-                <Menu className="size-5" />
+              <Button variant="outline" size="icon" className="lg:hidden rounded-full h-9 w-9 sm:h-10 sm:w-10 border-slate-200 dark:border-slate-800" aria-label="Open menu">
+                <Menu className="size-5 text-[#1d6fa5]" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[86vw] max-w-sm">
-              <div className="mt-6 flex flex-col gap-1">
-                {navLinks.map((l) => {
-                  const active = l.href === "/" ? pathname === "/" : pathname?.startsWith(l.href);
-                  return (
-                    <Link
-                      key={l.href}
-                      href={l.href}
-                      onClick={() => setOpen(false)}
-                      className={cn(
-                        "rounded-lg px-3 py-3 text-base font-medium transition-colors hover:bg-accent hover:text-primary",
-                        active ? "text-primary bg-accent/50 font-semibold" : "text-foreground/85"
-                      )}
-                    >
-                      {l.label}
-                    </Link>
-                  );
-                })}
-                <Link
-                  href="/wishlist"
-                  onClick={() => setOpen(false)}
-                  className="rounded-lg px-3 py-3 text-base font-medium text-foreground/85 hover:bg-accent"
-                >
-                  Wishlist ({ids.length})
-                </Link>
+            <SheetContent side="right" className="w-[88vw] max-w-sm flex flex-col justify-between p-6">
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center justify-between border-b border-border pb-4">
+                  <Wordmark />
+                </div>
+
+                {/* Clean Navigation Links list - No duplicate Wishlist or Translate */}
+                <div className="flex flex-col gap-1.5 mt-2">
+                  {navLinks.map((l) => {
+                    const active = l.href === "/" ? pathname === "/" : pathname?.startsWith(l.href);
+                    return (
+                      <Link
+                        key={l.href}
+                        href={l.href}
+                        onClick={() => setOpen(false)}
+                        className={cn(
+                          "flex items-center justify-between rounded-xl px-4 py-3 text-base font-semibold transition-all",
+                          active
+                            ? "text-[#1d6fa5] bg-[#1d6fa5]/12 border border-[#1d6fa5]/30 font-bold"
+                            : "text-foreground/80 hover:bg-accent hover:text-[#1d6fa5]"
+                        )}
+                      >
+                        <span>{l.label}</span>
+                        {active && <span className="h-2 w-2 rounded-full bg-[#1d6fa5]" />}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Bottom Auth in Mobile Sheet */}
+              <div className="border-t border-border pt-4">
+                {!session ? (
+                  <Button asChild className="w-full rounded-xl bg-gradient-to-r from-[#1d6fa5] to-[#257ba6] text-white font-bold py-3 shadow-md" onClick={() => setOpen(false)}>
+                    <Link href="/auth/sign-in">Sign In to Explorify</Link>
+                  </Button>
+                ) : (
+                  <div className="flex items-center gap-3 p-2 bg-accent/40 rounded-xl">
+                    <ProfileMenu user={session.user} />
+                    <div>
+                      <p className="text-sm font-bold text-foreground">{session.user?.name || "Explorer"}</p>
+                      <p className="text-xs text-muted-foreground">{session.user?.email}</p>
+                    </div>
+                  </div>
+                )}
               </div>
             </SheetContent>
           </Sheet>
+        </div>
+      </div>
+
+      {/* Dedicated Bottom Sub-Bar: Navigation Links ONLY (Spacious, Transparent & Larger Font) */}
+      <div className="hidden lg:block border-t border-border/30 bg-transparent px-4 py-2.5 sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-7xl items-center justify-center gap-3 sm:gap-4">
+          {navLinks.map((l) => {
+            const active = l.href === "/" ? pathname === "/" : pathname?.startsWith(l.href);
+            return (
+              <Link
+                key={l.href}
+                href={l.href}
+                className={cn(
+                  "rounded-full px-5 py-2 text-base font-bold transition-all duration-200 tracking-wide",
+                  active
+                    ? "bg-[#1d6fa5] text-white shadow-md scale-105"
+                    : "text-foreground/85 hover:bg-[#1d6fa5]/12 hover:text-[#1d6fa5]"
+                )}
+              >
+                {l.label}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </header>
@@ -158,35 +220,43 @@ export function SiteHeader() {
 
 export function MobileTabBar() {
   const pathname = usePathname();
+  const { ids } = useWishlist();
   const items = [
     { href: "/", label: "Home", icon: Home },
-    { href: "/trips", label: "Search", icon: Search },
-    { href: "/wishlist", label: "Wishlist", icon: Heart },
+    { href: "/trips", label: "Trips", icon: Search },
+    { href: "/travel-planner", label: "AI Planner", icon: Sparkles },
+    { href: "/wishlist", label: `Wishlist (${ids.length})`, icon: Heart },
     { href: "/bookings", label: "Bookings", icon: Ticket },
-    { href: "/about", label: "Profile", icon: Compass },
   ] as const;
 
   return (
     <nav
       aria-label="Mobile"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-background/95 backdrop-blur-xl lg:hidden"
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-background/95 backdrop-blur-xl lg:hidden shadow-lg"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
-      <ul className="mx-auto flex max-w-lg">
+      <ul className="mx-auto flex max-w-lg justify-around">
         {items.map((it) => {
           const active =
             it.href === "/" ? pathname === "/" : pathname?.startsWith(it.href);
+          const isWishlist = it.href === "/wishlist";
           return (
             <li key={it.href} className="flex-1">
               <Link
                 href={it.href}
                 className={cn(
-                  "flex min-h-[56px] flex-col items-center justify-center gap-1 text-[11px] font-medium transition-colors",
-                  active ? "text-primary" : "text-muted-foreground",
+                  "flex min-h-[56px] flex-col items-center justify-center gap-1 text-[11px] font-semibold transition-all",
+                  active ? "text-[#1d6fa5]" : "text-muted-foreground hover:text-foreground",
                 )}
               >
-                <it.icon className={cn("size-5", active && "text-azure")} />
-                {it.label}
+                <it.icon
+                  className={cn(
+                    "size-5 transition-transform",
+                    isWishlist && "text-rose-500 fill-rose-500",
+                    !isWishlist && active && "text-[#1d6fa5] scale-110",
+                  )}
+                />
+                <span className={cn(active && "font-bold text-[#1d6fa5]")}>{it.label}</span>
               </Link>
             </li>
           );
