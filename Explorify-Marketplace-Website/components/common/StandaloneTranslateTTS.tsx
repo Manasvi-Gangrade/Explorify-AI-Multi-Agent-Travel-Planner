@@ -234,7 +234,7 @@ export const GoogleTranslateWidget = memo(function GoogleTranslateWidget() {
     }, []);
 
     return (
-        <div className="relative inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white dark:bg-slate-900 text-[#1d6fa5] shadow-sm border border-[#1d6fa5]/35 text-[#1d6fa5] text-xs font-bold shrink-0 transition-all hover:border-[#1d6fa5] hover:shadow-md">
+        <div className="relative inline-flex items-center gap-0.5 px-1.5 py-1 rounded-full bg-white dark:bg-slate-900 text-[#1d6fa5] shadow-sm border border-[#1d6fa5]/35 text-[11px] font-bold shrink-0 transition-all hover:border-[#1d6fa5]">
             <Globe className="size-3.5 shrink-0 text-[#1d6fa5]" />
             <div id="google_translate_element" className="inline-flex items-center"></div>
 
@@ -251,14 +251,14 @@ export const GoogleTranslateWidget = memo(function GoogleTranslateWidget() {
                     background-color: transparent !important;
                     border: none !important;
                     outline: none !important;
-                    font-size: 12px !important;
+                    font-size: 11px !important;
                     font-weight: 700 !important;
                     color: #1d6fa5 !important;
                     cursor: pointer !important;
-                    padding: 0 4px !important;
+                    padding: 0 2px !important;
                     margin: 0 !important;
                     height: auto !important;
-                    max-width: 130px !important;
+                    max-width: 65px !important;
                 }
                 #google_translate_element span,
                 #google_translate_element a {

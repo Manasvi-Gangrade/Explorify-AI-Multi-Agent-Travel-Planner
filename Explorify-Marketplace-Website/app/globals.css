@@ -7,6 +7,12 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Prevent mobile horizontal scrolling overflow */
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
 /*
  * ExplorifyTrips design system — "sky and ocean meets Indian travel".
  * Light, airy, editorial. Blue-forward with saffron gold + coral warmth.

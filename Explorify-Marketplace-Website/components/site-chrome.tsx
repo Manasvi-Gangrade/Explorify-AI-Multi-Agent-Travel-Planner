@@ -43,11 +43,11 @@ const navLinks = [
 
 function Wordmark() {
   return (
-    <Link href="/" className="flex items-center gap-2.5" aria-label="ExplorifyTrips home">
-      <span className="grid size-9 place-items-center rounded-xl bg-[#1d6fa5] text-white shadow-sm">
-        <Compass className="size-5" />
+    <Link href="/" className="flex items-center gap-1.5 sm:gap-2.5 shrink-0" aria-label="ExplorifyTrips home">
+      <span className="grid size-8 sm:size-9 place-items-center rounded-xl bg-[#1d6fa5] text-white shadow-sm shrink-0">
+        <Compass className="size-4 sm:size-5" />
       </span>
-      <span className="font-display text-xl leading-none font-semibold notranslate" translate="no">
+      <span className="font-display text-base sm:text-xl leading-none font-semibold notranslate shrink-0" translate="no">
         Explorify<span className="text-[#1d6fa5] dark:text-sky-300">Trips</span>
       </span>
     </Link>
@@ -72,10 +72,10 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200/70 dark:border-slate-800/70 bg-[#f4f8fb]/95 dark:bg-slate-950/95 shadow-soft backdrop-blur-xl transition-all duration-300">
       {/* Top Main Bar: Logo + All Utilities & Auth */}
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-2.5 sm:px-6 lg:px-8">
         <Wordmark />
 
-        <div className="flex shrink-0 items-center gap-3 sm:gap-4 lg:gap-5">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-4 lg:gap-5">
           {/* Language Selector Dropdown */}
           <div className="flex items-center">
             <GoogleTranslateWidget />
@@ -86,29 +86,29 @@ export function SiteHeader() {
             <CurrencySwitcher />
           </div>
 
-          {/* Audio Voice Guide (Speaker) & Voice Command Assistant (Mic) Side by Side */}
-          <div className="flex items-center gap-2 mr-3 sm:mr-5">
+          {/* Audio Voice Guide (Speaker) & Voice Command Assistant (Mic) Side by Side - hidden on smallest screens */}
+          <div className="hidden min-[400px]:flex items-center gap-1.5 sm:gap-2 mr-1 sm:mr-5">
             <AudioGuideToggle />
             <VoiceNavigationAssistant />
           </div>
 
           {/* Subtle Vertical Divider Separator */}
-          <div className="h-6 w-[1px] bg-border/60 mx-2 sm:mx-3 hidden sm:block shrink-0" />
+          <div className="h-6 w-[1px] bg-border/60 mx-1 sm:mx-3 hidden sm:block shrink-0" />
 
           {/* Wishlist Button - Extra Large Red Heart */}
           <Link
             href="/wishlist"
             aria-label={`Wishlist, ${ids.length} saved trips`}
-            className="relative flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-full text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-all hover:scale-110"
+            className="relative flex h-9 w-9 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-full text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-all hover:scale-110"
           >
             <Heart
               className={cn(
-                "w-[25px] h-[25px] sm:w-[29px] sm:h-[29px] fill-rose-500 text-rose-500 transition-all duration-300",
+                "w-[22px] h-[22px] sm:w-[29px] sm:h-[29px] fill-rose-500 text-rose-500 transition-all duration-300",
                 isPulsing && "scale-125"
               )}
             />
             {ids.length > 0 && (
-              <span className="absolute -top-1 -right-1 grid h-4.5 min-w-[18px] sm:h-5 sm:min-w-[20px] place-items-center rounded-full bg-rose-500 px-1 text-[10px] sm:text-[11px] font-extrabold text-white shadow-md border-2 border-background">
+              <span className="absolute -top-1 -right-1 grid h-4 min-w-[16px] sm:h-5 sm:min-w-[20px] place-items-center rounded-full bg-rose-500 px-1 text-[9px] sm:text-[11px] font-extrabold text-white shadow-md border-2 border-background">
                 {ids.length}
               </span>
             )}
@@ -137,8 +137,8 @@ export function SiteHeader() {
           {/* Mobile Sheet Menu Trigger */}
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button variant="outline" size="icon" className="lg:hidden rounded-full h-9 w-9 sm:h-10 sm:w-10 border-slate-200 dark:border-slate-800" aria-label="Open menu">
-                <Menu className="size-5 text-[#1d6fa5]" />
+              <Button variant="outline" size="icon" className="lg:hidden rounded-full h-8 w-8 sm:h-10 sm:w-10 border-slate-200 dark:border-slate-800 shrink-0" aria-label="Open menu">
+                <Menu className="size-4 sm:size-5 text-[#1d6fa5]" />
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-[88vw] max-w-sm flex flex-col justify-between p-6">
