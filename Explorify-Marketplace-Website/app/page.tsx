@@ -208,7 +208,7 @@ function VideoShowcase() {
       videoRef.current.pause();
       setIsPlaying(false);
     } else {
-      videoRef.current.play();
+      videoRef.current.play().catch(() => {});
       setIsPlaying(true);
     }
   };
@@ -302,7 +302,7 @@ function VideoShowcase() {
                   setIsPlaying(true);
                   if (videoRef.current) {
                     videoRef.current.currentTime = 0;
-                    videoRef.current.play();
+                    videoRef.current.play().catch(() => {});
                   }
                 }}
                 className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
