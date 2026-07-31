@@ -64,8 +64,8 @@ export default function SignInPage() {
 
       if (result?.error) {
         setError("Failed to sign in with Google");
-      } else if (result?.url) {
-        router.push(result.url);
+      } else {
+        router.push("/trips");
       }
     } catch {
       setError("An unexpected error occurred");
@@ -122,8 +122,8 @@ export default function SignInPage() {
 
         if (result?.error) {
           setError("Invalid email or password");
-        } else if (result?.url) {
-          router.push(result.url);
+        } else {
+          router.push("/trips");
         }
       } else {
         await handleSignUp(formData.email, formData.password, formData.name);
