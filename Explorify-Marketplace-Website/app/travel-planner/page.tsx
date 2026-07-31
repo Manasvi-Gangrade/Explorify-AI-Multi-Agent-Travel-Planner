@@ -270,7 +270,7 @@ function TravelPlannerContent() {
           days: 5,
           nights: 4,
           numPeople: adults || 1,
-          totalAmount: Number(budget) || 25000,
+          totalAmount: 25000,
           paymentStatus: "PAID",
           bookingStatus: "confirmed",
           createdAt: new Date().toISOString(),
